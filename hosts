@@ -1,0 +1,6 @@
+
+[webservers]
+ec2-54-175-110-246.compute-1.amazonaws.com
+
+[webservers:vars]
+ansible_ssh_user=ubuntu
