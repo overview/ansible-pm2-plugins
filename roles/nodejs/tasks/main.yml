@@ -1,0 +1,10 @@
+---
+# Install Node.js.
+
+- name: Add the node PPA
+  apt_repository: repo="ppa:chris-lea/node.js" update_cache=yes
+  sudo: True
+
+- name: Install Node.js
+  apt: pkg=nodejs state=latest
+  sudo: True
