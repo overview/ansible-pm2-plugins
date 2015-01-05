@@ -1,7 +1,0 @@
----
-
-- name: Configure and deploy the node servers.
-  hosts: webservers
-  sudo: True
-  roles:
-    - nodejs

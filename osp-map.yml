@@ -1,0 +1,41 @@
+---
+
+- name: Deploy the OSP Map plugin.
+  sudo: True
+  hosts: webservers
+
+  vars:
+    repo: https://github.com/overview/osp-map.git
+    app_dir: /usr/local/projects/osp-map
+
+  roles:
+    - nodejs
+
+  tasks:
+
+  - name: Deploy osp-map
+    register: code
+    git:
+      repo: "{{ repo }}"
+      dest: "{{ app_dir }}"
+
+  - name: Install npm dependencies
+    command: npm install
+    when: code.changed
+    args:
+      chdir: "{{ app_dir }}"
+
+  - name: Build the front-end application
+    command: grunt compile:min
+    when: code.changed
+    args:
+      chdir: "{{ app_dir }}"
+
+  - name: Start the app
+    command: pm2 startOrRestart app.json
+    when: code.changed
+    args:
+      chdir: "{{ app_dir }}"
+    environment:
+      PORT: 80
+      NODE_ENV: production
