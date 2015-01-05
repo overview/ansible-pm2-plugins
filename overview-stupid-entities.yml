@@ -36,7 +36,7 @@
       chdir: "{{ app_dir }}"
 
   - name: Start the app
-    command: pm2 startOrReload app.json
+    command: pm2 startOrReload app.json -i max
     args:
       chdir: "{{ app_dir }}"
     environment:
