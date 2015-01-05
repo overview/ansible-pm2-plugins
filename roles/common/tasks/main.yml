@@ -6,3 +6,9 @@
     state: latest
   with_items:
     - git
+    - build-essential
+    - libgif-dev
+    - libjpeg-dev
+    - pkg-config
+    - libpcre3-dev
+    - libcairo2-dev

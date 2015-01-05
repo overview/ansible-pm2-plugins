@@ -1,15 +1,14 @@
 ---
 
-- name: Deploy the OSP Map plugin.
+- name: Deploy Overview stupid entity detector
   sudo: True
   hosts: webservers
 
   vars:
-    app_dir: /usr/local/projects/osp-map
-    repo: https://github.com/overview/osp-map.git
+    app_dir: /home/ubuntu/overview-stupid-entities
+    repo: https://github.com/overview/overview-stupid-entities.git
     port: 3001
     node_env: production
-    mount: /osp-map
 
   roles:
     - common
@@ -18,7 +17,7 @@
 
   tasks:
 
-  - name: Deploy osp-map
+  - name: Deploy overview-stupid-entities
     register: code
     git:
       repo: "{{ repo }}"
@@ -26,13 +25,13 @@
 
   - name: Install npm dependencies
     command: npm install
-    when: code.changed
+    #when: code.changed
     args:
       chdir: "{{ app_dir }}"
 
   - name: Build the front-end application
-    command: grunt compile:min
-    when: code.changed
+    command: ./node_modules/.bin/gulp dist
+    #when: code.changed
     args:
       chdir: "{{ app_dir }}"
 
