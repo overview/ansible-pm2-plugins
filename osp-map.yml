@@ -23,16 +23,19 @@
 
   - name: Install npm dependencies
     command: npm install
+    when: code.changed
     args:
       chdir: "{{ app_dir }}"
 
   - name: Build the front-end application
     command: grunt compile:min
+    when: code.changed
     args:
       chdir: "{{ app_dir }}"
 
   - name: Start the app
     command: pm2 startOrReload app.json
+    when: code.changed
     args:
       chdir: "{{ app_dir }}"
     environment:
