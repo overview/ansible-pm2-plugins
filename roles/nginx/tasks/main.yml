@@ -1,0 +1,12 @@
+---
+
+- name: Install nginx
+  apt:
+    pkg: nginx
+    state: latest
+
+- name: Push the configuration file
+  template:
+    src: default
+    dest: /etc/nginx/sites-enabled/default
+  notify: restart nginx
