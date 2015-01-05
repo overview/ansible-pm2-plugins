@@ -8,8 +8,11 @@
 
 - name: Install Node.js
   apt:
-    pkg: nodejs
+    pkg: "{{ item }}"
     state: latest
+  with_items:
+    - git
+    - nodejs
 
 - name: Install global npm modules
   npm:
@@ -19,7 +22,3 @@
     - coffee-script
     - pm2
     - grunt-cli
-
-# TODO
-# start vs restart
-# deploy multiple apps on different ports
