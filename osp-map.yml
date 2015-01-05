@@ -5,10 +5,12 @@
   hosts: webservers
 
   vars:
-    repo: https://github.com/overview/osp-map.git
     app_dir: /usr/local/projects/osp-map
+    repo: https://github.com/overview/osp-map.git
+    port: 3001
 
   roles:
+    - common
     - nodejs
 
   tasks:
@@ -21,21 +23,18 @@
 
   - name: Install npm dependencies
     command: npm install
-    when: code.changed
     args:
       chdir: "{{ app_dir }}"
 
   - name: Build the front-end application
     command: grunt compile:min
-    when: code.changed
     args:
       chdir: "{{ app_dir }}"
 
   - name: Start the app
-    command: pm2 startOrRestart app.json
-    when: code.changed
+    command: pm2 startOrReload app.json
     args:
       chdir: "{{ app_dir }}"
     environment:
-      PORT: 80
+      PORT: "{{ port }}"
       NODE_ENV: production
