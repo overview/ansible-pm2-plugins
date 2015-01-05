@@ -38,10 +38,8 @@
 
   - name: Start the app
     command: pm2 startOrReload app.json
-    when: code.changed
     args:
       chdir: "{{ app_dir }}"
     environment:
       PORT: "{{ port }}"
       NODE_ENV: "{{ node_env }}"
-      MOUNT: "{{ mount }}"
