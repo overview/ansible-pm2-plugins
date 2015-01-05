@@ -25,13 +25,13 @@
 
   - name: Install npm dependencies
     command: npm install
-    #when: code.changed
+    when: code.changed
     args:
       chdir: "{{ app_dir }}"
 
   - name: Build the front-end application
     command: ./node_modules/.bin/gulp dist
-    #when: code.changed
+    when: code.changed
     args:
       chdir: "{{ app_dir }}"
 
