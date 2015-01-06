@@ -2,6 +2,33 @@
 
 A simple configuration and deployment rig for Overview plugins, using [Ansible](https://github.com/ansible/ansible) and [PM2](https://github.com/Unitech/PM2).
 
+## Spin up a server
+
+1. Create a new EC2 instance in the `plugins` subnet.
+
+1. Create a new elastic IP, associate it with the instance.
+
+1. Create a new subdomain (`new-plugin.plugins.overviewproject.org`), and point it at the new elastic IP.
+
+1. Generate a new SSL key with `openssl genrsa -out server.key 2048`.
+
+1. Create a certificate signing request with `openssl req -new -sha256 -key ~/server.key -out ~/osp-map.plugins.overviewproject.org.csr`. Be sure to leave the password blank.
+
+1. Purchase a SSL certificate from [Namecheap](https://www.namecheap.com/security/ssl-certificates/domain-validation.aspx), using the CSR from the last step.
+
+1. Once the certificate is validated, you'll get a .zip file with four certificates:
+
+  - new-plugin_plugins_overviewproject_org.crt
+  - COMODORSADomainValidationSecureServerCA.crt
+  - COMODORSAAddTrustCA.crt
+  - AddTrustExternalCARoot.crt
+
+  Concatenate all of the certificates together, in this order, from most to least specific:
+
+  `cat new-plugin_plugins_overviewproject_org.crt COMODORSADomainValidationSecureServerCA.crt COMODORSAAddTrustCA.crt AddTrustExternalCARoot.crt > bundle.crt`
+
+1. Move `server.key` -> `/etc/nginx/cert.key`, and `bundle.crt` -> `/etc/nginx/cert.csr`.
+
 ## Deploy a plugin
 
 1. Install Ansible with `pip install ansible`.
