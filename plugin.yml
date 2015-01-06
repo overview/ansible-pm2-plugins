@@ -1,15 +1,14 @@
 ---
 
-- name: Deploy the OSP Map plugin.
+- name: Deploy the XXX plugin.
   sudo: True
   hosts: webservers
 
   vars:
-    app_dir: /usr/local/projects/osp-map
-    repo: https://github.com/overview/osp-map.git
-    port: 3001
+    app_dir: XXX
+    repo: XXX
     node_env: production
-    mount: /osp-map
+    port: 3001
 
   roles:
     - common
@@ -18,7 +17,7 @@
 
   tasks:
 
-  - name: Deploy osp-map
+  - name: Deploy XXX
     register: code
     git:
       repo: "{{ repo }}"
@@ -31,7 +30,7 @@
       chdir: "{{ app_dir }}"
 
   - name: Build the front-end application
-    command: grunt compile:min
+    command: XXX
     when: code.changed
     args:
       chdir: "{{ app_dir }}"
