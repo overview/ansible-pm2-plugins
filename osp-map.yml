@@ -9,7 +9,6 @@
     repo: https://github.com/overview/osp-map.git
     port: 3001
     node_env: production
-    mount: /osp-map
 
   roles:
     - common
