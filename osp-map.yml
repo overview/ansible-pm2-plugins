@@ -1,7 +1,6 @@
 ---
 
 - name: Deploy the OSP Map plugin.
-  sudo: True
   hosts: webservers
 
   vars:

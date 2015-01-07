@@ -15,6 +15,5 @@
     name: "{{ item }}"
     global: yes
   with_items:
-    - coffee-script
     - pm2
     - grunt-cli
