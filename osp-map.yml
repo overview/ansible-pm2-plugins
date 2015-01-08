@@ -4,8 +4,9 @@
   hosts: webservers
 
   vars:
-    app_dir: /usr/local/projects/osp-map
+    app_dir: /home/ubuntu/src/osp-map
     repo: https://github.com/overview/osp-map.git
+    branch: feature/bb-filter
     port: 3001
     node_env: production
 
@@ -13,31 +14,3 @@
     - common
     - nginx
     - nodejs
-
-  tasks:
-
-  - name: Deploy osp-map
-    register: code
-    git:
-      repo: "{{ repo }}"
-      dest: "{{ app_dir }}"
-
-  - name: Install npm dependencies
-    command: npm install
-    when: code.changed
-    args:
-      chdir: "{{ app_dir }}"
-
-  - name: Build the front-end application
-    command: grunt compile:min
-    when: code.changed
-    args:
-      chdir: "{{ app_dir }}"
-
-  - name: Start the app
-    command: pm2 startOrReload app.json
-    args:
-      chdir: "{{ app_dir }}"
-    environment:
-      PORT: "{{ port }}"
-      NODE_ENV: "{{ node_env }}"
